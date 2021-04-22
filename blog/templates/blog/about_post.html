@@ -1,0 +1,56 @@
+{% extends 'blog/post_list.html'%}
+{% block title %} {{post.title}} - AzePUG {% endblock %}
+{% block body%}
+<div class="container">
+    <h2><i>{{post.title}}</i></h2>
+    <p class="text-lg-right"> <i>Müəllif: <a href="#">{{post.author}}</a> Tarix:{{post.date_created}}</i></p>
+    <div class="text-sm-center">
+        {{post.content}}
+        <br>
+        {% if request.user == post.author %}
+            <a class = "btn btn-secondary" href="{% url 'blog:update_post' post.id %}" >
+                Redaktə et
+            </a>
+
+            <a class = "btn btn-secondary" href="{% url 'blog:delete_post' post.id %}" >
+                Sil
+            </a>
+        {% endif %}
+    </div>
+        {% with comments.count as total_comments %}
+        <h4>
+            Cəmi {{total_comments}} şərh
+        </h4>
+    {% endwith %}
+    {% for comment in comments %}
+        <div class="card">
+            <p class="info">
+                Şərh  {{forloop.counter}} < - {{comment.name_author}}
+                {{comment.created}}
+            </p>
+            {{comment.body|linebreaks}}
+        </div>
+    {% empty %}
+        <h4>İlk şərhçi siz olun! </h4>
+    {% endfor %}
+
+{% if new_comment %}
+    <small class="text-success">Şərhiniz uğurla əlavə edildi</small>
+{% else %}
+    <h3>Yeni şərh əlavə et</h3>
+    <form method="POST">
+{% if user.is_authenticated %}
+<!--        decorate here, for loginned user comment -->
+    {{comment_form.as_p}}
+{% else %}
+<!--        it is for non auth user-->
+    {{comment_form.as_p}}
+{% endif %}
+    {% csrf_token %}
+    <p>
+        <input class="btn btn-success" type="submit" value="Əlavə et">
+    </p>
+    </form>
+{% endif %}
+</div>
+{% endblock %}
