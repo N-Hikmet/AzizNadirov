@@ -60,7 +60,7 @@ class Post(m.Model):
 class Comment(m.Model):
     author = m.ForeignKey(User,verbose_name='müəllif', related_name = 'comments', null = True, on_delete=m.SET_NULL)
     post = m.ForeignKey(Post, related_name = 'comments', on_delete = m.CASCADE)
-    vacancy = m.ForeignKey('vacancy.Vacancy', related_name='comments', on_delete=m.CASCADE)
+    # vacancy = m.ForeignKey('vacancy.Vacancy', related_name='comments', on_delete=m.CASCADE)
     email = m.EmailField('Elektron poçt')
     body = m.TextField('Şərh')
     created = m.DateTimeField('Yaradılma tarixi',auto_now_add = True)
