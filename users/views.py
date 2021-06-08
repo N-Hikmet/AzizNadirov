@@ -21,7 +21,6 @@ def edit_profile_view(request):
     if request.method == 'POST':
         u_form = UserUpdateForm(request.POST, request.FILES,  instance = request.user)
         p_form = ProfileUpdateForm(instance = request.user.profile)
-        print(u_form.is_valid() and p_form.is_valid())
 
         if u_form.is_valid() and p_form.is_valid():
             u_form.save()

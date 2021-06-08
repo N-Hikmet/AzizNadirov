@@ -23,6 +23,9 @@ def vacancy_detail(request, pk):
     new_comment = None
     if request.method == 'POST':
         comment_form = CommentForm(data = request.POST)
+        print('-'*50)
+        print(request.POST)
+        print('-'*50)
         if comment_form.is_valid():
             new_comment = comment_form.save(commit = False)
             new_comment.vacancy = vacancy
